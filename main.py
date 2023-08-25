@@ -39,3 +39,30 @@ note1 = Note(title='My first note',
 note1.save()
 
 # APPLICATION
+
+
+def print_notes_menu():
+    print('Welcome to Notes')
+    print('1. See all notes')
+
+
+print_notes_menu()
+
+while True:
+    user_input = input('Enter input: ')
+
+    if user_input == 'q' or user_input == 'quit':
+        break
+
+    elif user_input == '1':
+        notes = Note.select()
+        print('\nAll Notes')
+        print('---------')
+
+        for note in notes:
+            print(note.title)
+
+        print()
+
+    else:
+        print('Invalid input')
