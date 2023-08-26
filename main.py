@@ -80,10 +80,9 @@ def print_labels_menu():
     print(chalk.yellow('\'m\' or \'main\' to return to main menu\n'))
 
 
-def print_all_notes():
-    notes = Note.select()
-    print(chalk.cyan('\nAll Notes'))
-    print('---------')
+def print_notes(notes):
+    print(chalk.cyan('\nNotes'))
+    print('-----')
     for note in notes:
         print(chalk.green(f'{note.id}. {note.title}'))
     print()
@@ -109,7 +108,7 @@ while True:
     # VIEW NOTES
     elif user_input == '1':
         while True:
-            print_all_notes()
+            print_notes(Note.select())
             print_notes_menu()
             user_input = input('Enter choice: ')
 
@@ -170,8 +169,7 @@ while True:
                 notes = Note.select().join(Labelization).join(Label).where(
                     (Label.id == user_input) & (Label.id == Labelization.label_id))
 
-                for note in notes:
-                    print(chalk.green(f'{note.id}. {note.title}'))
+                print_notes(notes)
 
             # DELETE LABEL
             elif user_input == '2':
