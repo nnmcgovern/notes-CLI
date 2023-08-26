@@ -189,7 +189,7 @@ while True:
     # CREATE NEW NOTE
     elif user_input == '3':
         note_title = input(chalk.cyan('Title: '))
-        note_content = input(chalk.cyan('Write your note here.\n'))
+        note_content = input(chalk.cyan('\nWrite your note here.\n'))
         Note(title=note_title, content=note_content).save()
         print(chalk.green('Note saved'))
 
