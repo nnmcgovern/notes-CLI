@@ -26,8 +26,8 @@ class Label(BaseModel):
 
 
 class Labelization(BaseModel):
-    note_id = IntegerField()
-    label_id = IntegerField()
+    note_id = ForeignKeyField(Note, backref='note', on_delete='CASCADE')
+    label_id = ForeignKeyField(Label, backref='label', on_delete='CASCADE')
 
 
 db.drop_tables([Note, Label, Labelization])
@@ -38,11 +38,23 @@ db.create_tables([Note, Label, Labelization])
 note1 = Note(title='My first note',
              content='this is the content of my first note')
 note1.save()
+note2 = Note(title='Some notes for work',
+             content='here is some random text for my note')
+note2.save()
+note3 = Note(title='Another personal note', content='testing testing 1 2 3')
+note3.save()
 
 label1 = Label(name='Personal')
 label1.save()
 label2 = Label(name='Work')
 label2.save()
+
+labelize1 = Labelization(note_id=1, label_id=1)
+labelize1.save()
+labelize2 = Labelization(note_id=2, label_id=2)
+labelize2.save()
+labelize3 = Labelization(note_id=3, label_id=1)
+labelize3.save()
 
 # APPLICATION
 
@@ -51,6 +63,7 @@ def print_main_menu():
     print(chalk.yellow('Welcome to Notes'))
     print(chalk.yellow('1. View notes'))
     print(chalk.yellow('2. View labels'))
+    print(chalk.yellow('3. Create new note'))
     print(chalk.yellow('\'q\' or \'quit\' to exit\n'))
 
 
@@ -69,6 +82,15 @@ def print_all_notes():
     print()
 
 
+def print_all_labels():
+    labels = Label.select()
+    print('\nLabels')
+    print('------')
+    for label in labels:
+        print(f'{label.id}. {label.name}')
+    print()
+
+
 print_main_menu()
 
 while True:
@@ -80,15 +102,6 @@ while True:
 
     # VIEW NOTES
     elif user_input == '1':
-        # notes = Note.select()
-        # print(chalk.cyan('\nAll Notes'))
-        # print('---------')
-
-        # for note in notes:
-        #     print(chalk.green(f'{note.id}. {note.title}'))
-
-        # print()
-
         while True:
             print_all_notes()
             print_notes_menu()
@@ -122,10 +135,10 @@ while True:
                 try:
                     Note.get_by_id(user_input)
                     Note.delete_by_id(user_input)
-                    print(f'\nNote with id {user_input} deleted.\n')
+                    print(f'\nNote with id {user_input} deleted.')
 
                 except DoesNotExist:
-                    print(f'\nNote with id {user_input} does not exist.\n')
+                    print(f'\nNote with id {user_input} does not exist.')
 
                 # try, except block uses get_by_id() to determine whether note with
                 # given ID exists, and to print message to the console if it doesn't.
@@ -134,14 +147,11 @@ while True:
 
     # VIEW LABELS
     elif user_input == '2':
-        labels = Label.select()
-        print('\nLabels')
-        print('------')
+        print_all_labels()
 
-        for label in labels:
-            print(label.name)
-
-        print()
+    # CREATE NEW NOTE
+    elif user_input == '3':
+        note_title = input('')
 
     else:
         print('Invalid input')
