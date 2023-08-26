@@ -64,6 +64,7 @@ def print_main_menu():
     print(chalk.yellow('1. View notes'))
     print(chalk.yellow('2. View labels'))
     print(chalk.yellow('3. Create new note'))
+    print(chalk.yellow('4. Create new label'))
     print(chalk.yellow('\'q\' or \'quit\' to exit\n'))
 
 
@@ -183,6 +184,12 @@ while True:
         note_content = input(chalk.cyan('Write your note here.\n'))
         Note(title=note_title, content=note_content).save()
         print(chalk.green('Note saved'))
+
+    # CREATE NEW LABEL
+    elif user_input == '4':
+        label_name = input(chalk.cyan('Name: '))
+        Label(name=label_name).save()
+        print(chalk.green('Label saved'))
 
     else:
         print(chalk.red('Invalid input'))
