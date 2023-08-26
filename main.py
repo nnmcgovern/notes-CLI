@@ -60,6 +60,15 @@ def print_notes_menu():
     print(chalk.yellow('\'m\' or \'main\' to return to main menu\n'))
 
 
+def print_all_notes():
+    notes = Note.select()
+    print(chalk.cyan('\nAll Notes'))
+    print('---------')
+    for note in notes:
+        print(chalk.green(f'{note.id}. {note.title}'))
+    print()
+
+
 print_main_menu()
 
 while True:
@@ -71,16 +80,17 @@ while True:
 
     # VIEW NOTES
     elif user_input == '1':
-        notes = Note.select()
-        print(chalk.cyan('\nAll Notes'))
-        print('---------')
+        # notes = Note.select()
+        # print(chalk.cyan('\nAll Notes'))
+        # print('---------')
 
-        for note in notes:
-            print(chalk.green(f'{note.id}. {note.title}'))
+        # for note in notes:
+        #     print(chalk.green(f'{note.id}. {note.title}'))
 
-        print()
+        # print()
 
         while True:
+            print_all_notes()
             print_notes_menu()
             user_input = input('Enter choice: ')
 
@@ -100,6 +110,7 @@ while True:
                     print('-' * len(note.title))
                     print(chalk.green(note.content))
                     print(chalk.cyan(f'\nCreated: {note.date_created}\n'))
+                    input('Press ENTER to return to notes menu')
 
                 except DoesNotExist:
                     print(f'\nNote with id {user_input} not found.\n')
@@ -114,7 +125,7 @@ while True:
                     print(f'\nNote with id {user_input} deleted.\n')
 
                 except DoesNotExist:
-                    print(f'\nNote with id {user_input} does not exist.')
+                    print(f'\nNote with id {user_input} does not exist.\n')
 
                 # try, except block uses get_by_id() to determine whether note with
                 # given ID exists, and to print message to the console if it doesn't.
