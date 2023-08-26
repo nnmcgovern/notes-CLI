@@ -48,16 +48,16 @@ label2.save()
 
 
 def print_main_menu():
-    print('Welcome to Notes')
-    print('1. View notes')
-    print('2. View labels')
-    print('\'q\' or \'quit\' to exit')
+    print(chalk.yellow('Welcome to Notes'))
+    print(chalk.yellow('1. View notes'))
+    print(chalk.yellow('2. View labels'))
+    print(chalk.yellow('\'q\' or \'quit\' to exit\n'))
 
 
 def print_notes_menu():
-    print('1. View note details')
-    print('2. Delete note')
-    print('\'m\' or \'main\' to return to main menu')
+    print(chalk.yellow('1. View note details'))
+    print(chalk.yellow('2. Delete note'))
+    print(chalk.yellow('\'m\' or \'main\' to return to main menu\n'))
 
 
 print_main_menu()
@@ -92,18 +92,23 @@ while True:
             # VIEW NOTE DETAILS
             elif user_input == '1':
                 user_input = input('Enter note id: ')
-                note = Note.get_by_id(user_input)
 
-                print(chalk.cyan(f'\n{note.title}'))
-                print('-' * len(note.title))
-                print(chalk.green(note.content))
-                print(chalk.cyan(f'\nCreated: {note.date_created}\n'))
+                try:
+                    note = Note.get_by_id(user_input)
+
+                    print(chalk.cyan(f'\n{note.title}'))
+                    print('-' * len(note.title))
+                    print(chalk.green(note.content))
+                    print(chalk.cyan(f'\nCreated: {note.date_created}\n'))
+
+                except DoesNotExist:
+                    print(f'\nNote with id {user_input} not found.\n')
 
             # DELETE NOTE
             elif user_input == '2':
                 user_input = input('Enter note id: ')
                 Note.delete_by_id(user_input)
-                print(f'Note id {user_input} deleted.\n')
+                print(f'\nNote with id {user_input} deleted.\n')
 
     # VIEW LABELS
     elif user_input == '2':
