@@ -38,29 +38,66 @@ note1 = Note(title='My first note',
              content='this is the content of my first note')
 note1.save()
 
+label1 = Label(name='Personal')
+label1.save()
+label2 = Label(name='Work')
+label2.save()
+
 # APPLICATION
 
 
-def print_notes_menu():
+def print_main_menu():
     print('Welcome to Notes')
-    print('1. See all notes')
+    print('1. View notes')
+    print('2. View labels')
 
 
-print_notes_menu()
+def print_notes_menu():
+    print('1. View note details')
+    print('2. Create new note')
+    print('3. Delete note')
+
+
+print_main_menu()
 
 while True:
-    user_input = input('Enter input: ')
+    user_input = input('Enter choice: ')
 
     if user_input == 'q' or user_input == 'quit':
         break
 
+    # NOTES
     elif user_input == '1':
         notes = Note.select()
         print('\nAll Notes')
         print('---------')
 
         for note in notes:
-            print(note.title)
+            print(f'{note.id}. {note.title}')
+
+        print()
+        print_notes_menu()
+
+        user_input = input('Enter choice: ')
+
+        # VIEW NOTE DETAILS
+        if user_input == '1':
+            user_input = input('Enter note id: ')
+            note = Note.get_by_id(user_input)
+
+            print(f'\n{note.title}')
+            print('-' * len(note.title))
+            print(note.content)
+            print(f'\nCreated: {note.date_created}\n')
+
+    # LABELS
+    elif user_input == '2':
+        labels = Label.select()
+        print('\nLabels')
+        print('------')
+
+        for label in labels:
+            print(label.name)
 
         print()
 
