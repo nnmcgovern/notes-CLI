@@ -89,10 +89,10 @@ def print_all_notes():
 
 def print_all_labels():
     labels = Label.select()
-    print('\nLabels')
+    print(chalk.cyan('\nLabels'))
     print('------')
     for label in labels:
-        print(f'{label.id}. {label.name}')
+        print(chalk.green(f'{label.id}. {label.name}'))
     print()
 
 
@@ -161,6 +161,18 @@ while True:
             # RETURN TO MAIN MENU
             if user_input == 'm' or user_input == 'main':
                 break
+
+            # DELETE LABEL
+            elif user_input == '1':
+                user_input = input('Enter label id: ')
+
+                try:
+                    Label.get_by_id(user_input)
+                    Label.delete_by_id(user_input)
+                    print(f'\nLabel with id {user_input} deleted.')
+
+                except DoesNotExist:
+                    print(f'\nLabel with id {user_input} does not exist.')
 
             else:
                 print(chalk.red('Invalid input'))
