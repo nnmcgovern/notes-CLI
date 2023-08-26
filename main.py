@@ -75,7 +75,8 @@ def print_notes_menu():
 
 
 def print_labels_menu():
-    print(chalk.yellow('1. Delete label'))
+    print(chalk.yellow('1. View notes by label'))
+    print(chalk.yellow('2. Delete label'))
     print(chalk.yellow('\'m\' or \'main\' to return to main menu\n'))
 
 
@@ -163,8 +164,17 @@ while True:
             if user_input == 'm' or user_input == 'main':
                 break
 
-            # DELETE LABEL
+            # VIEW NOTES BY LABEL
             elif user_input == '1':
+                user_input = input('Enter label id: ')
+                notes = Note.select().join(Labelization).join(Label).where(
+                    (Label.id == user_input) & (Label.id == Labelization.label_id))
+
+                for note in notes:
+                    print(chalk.green(f'{note.id}. {note.title}'))
+
+            # DELETE LABEL
+            elif user_input == '2':
                 user_input = input('Enter label id: ')
 
                 try:
