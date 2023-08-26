@@ -107,8 +107,19 @@ while True:
             # DELETE NOTE
             elif user_input == '2':
                 user_input = input('Enter note id: ')
-                Note.delete_by_id(user_input)
-                print(f'\nNote with id {user_input} deleted.\n')
+
+                try:
+                    Note.get_by_id(user_input)
+                    Note.delete_by_id(user_input)
+                    print(f'\nNote with id {user_input} deleted.\n')
+
+                except DoesNotExist:
+                    print(f'\nNote with id {user_input} does not exist.')
+
+                # try, except block uses get_by_id() to determine whether note with
+                # given ID exists, and to print message to the console if it doesn't.
+                # delete_by_id() will actually still work (i.e. not throw an error)
+                # if a note with that ID doesn't exist.
 
     # VIEW LABELS
     elif user_input == '2':
