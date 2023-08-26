@@ -79,29 +79,31 @@ while True:
             print(chalk.green(f'{note.id}. {note.title}'))
 
         print()
-        print_notes_menu()
 
-        user_input = input('Enter choice: ')
+        while True:
+            print_notes_menu()
+            user_input = input('Enter choice: ')
 
-        # RETURN TO MAIN MENU
-        if user_input == 'm' or user_input == 'main':
-            print_main_menu()
+            # RETURN TO MAIN MENU
+            if user_input == 'm' or user_input == 'main':
+                print_main_menu()
+                break
 
-        # VIEW NOTE DETAILS
-        elif user_input == '1':
-            user_input = input('Enter note id: ')
-            note = Note.get_by_id(user_input)
+            # VIEW NOTE DETAILS
+            elif user_input == '1':
+                user_input = input('Enter note id: ')
+                note = Note.get_by_id(user_input)
 
-            print(chalk.cyan(f'\n{note.title}'))
-            print('-' * len(note.title))
-            print(chalk.green(note.content))
-            print(chalk.cyan(f'\nCreated: {note.date_created}\n'))
+                print(chalk.cyan(f'\n{note.title}'))
+                print('-' * len(note.title))
+                print(chalk.green(note.content))
+                print(chalk.cyan(f'\nCreated: {note.date_created}\n'))
 
-        # DELETE NOTE
-        elif user_input == '2':
-            user_input = input('Enter note id: ')
-            Note.delete_by_id(user_input)
-            print(f'Note id {user_input} deleted.')
+            # DELETE NOTE
+            elif user_input == '2':
+                user_input = input('Enter note id: ')
+                Note.delete_by_id(user_input)
+                print(f'Note id {user_input} deleted.\n')
 
     # VIEW LABELS
     elif user_input == '2':
