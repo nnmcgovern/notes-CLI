@@ -73,6 +73,11 @@ def print_notes_menu():
     print(chalk.yellow('\'m\' or \'main\' to return to main menu\n'))
 
 
+def print_labels_menu():
+    print(chalk.yellow('1. Delete label'))
+    print(chalk.yellow('\'m\' or \'main\' to return to main menu\n'))
+
+
 def print_all_notes():
     notes = Note.select()
     print(chalk.cyan('\nAll Notes'))
@@ -148,7 +153,14 @@ while True:
 
     # VIEW LABELS
     elif user_input == '2':
-        print_all_labels()
+        while True:
+            print_all_labels()
+            print_labels_menu()
+            user_input = input('Enter choice: ')
+
+            # RETURN TO MAIN MENU
+            if user_input == 'm' or user_input == 'main':
+                break
 
     # CREATE NEW NOTE
     elif user_input == '3':
