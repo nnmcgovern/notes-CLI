@@ -162,12 +162,15 @@ while True:
             if user_input == 'm' or user_input == 'main':
                 break
 
+            else:
+                print(chalk.red('Invalid input'))
+
     # CREATE NEW NOTE
     elif user_input == '3':
-        note_title = input('Title: ')
-        note_content = input('Write your note here.\n')
+        note_title = input(chalk.cyan('Title: '))
+        note_content = input(chalk.cyan('Write your note here.\n'))
         Note(title=note_title, content=note_content).save()
-        print('Note saved')
+        print(chalk.green('Note saved'))
 
     else:
         print(chalk.red('Invalid input'))
