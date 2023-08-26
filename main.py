@@ -60,7 +60,7 @@ labelize3.save()
 
 
 def print_main_menu():
-    print(chalk.yellow('Welcome to Notes'))
+    print(chalk.yellow('\nWelcome to Notes'))
     print(chalk.yellow('1. View notes'))
     print(chalk.yellow('2. View labels'))
     print(chalk.yellow('3. Create new note'))
@@ -91,9 +91,8 @@ def print_all_labels():
     print()
 
 
-print_main_menu()
-
 while True:
+    print_main_menu()
     user_input = input('Enter choice: ')
 
     # QUIT
@@ -109,7 +108,6 @@ while True:
 
             # RETURN TO MAIN MENU
             if user_input == 'm' or user_input == 'main':
-                print_main_menu()
                 break
 
             # VIEW NOTE DETAILS
@@ -122,11 +120,11 @@ while True:
                     print(chalk.cyan(f'\n{note.title}'))
                     print('-' * len(note.title))
                     print(chalk.green(note.content))
-                    print(chalk.cyan(f'\nCreated: {note.date_created}\n'))
+                    print(chalk.cyan(f'\nDate created: {note.date_created}\n'))
                     input('Press ENTER to return to notes menu')
 
                 except DoesNotExist:
-                    print(f'\nNote with id {user_input} not found.\n')
+                    print(f'\nNote with id {user_input} not found.')
 
             # DELETE NOTE
             elif user_input == '2':
@@ -145,13 +143,19 @@ while True:
                 # delete_by_id() will actually still work (i.e. not throw an error)
                 # if a note with that ID doesn't exist.
 
+            else:
+                print(chalk.red('Invalid input'))
+
     # VIEW LABELS
     elif user_input == '2':
         print_all_labels()
 
     # CREATE NEW NOTE
     elif user_input == '3':
-        note_title = input('')
+        note_title = input('Title: ')
+        note_content = input('Write your note here.\n')
+        Note(title=note_title, content=note_content).save()
+        print('Note saved')
 
     else:
-        print('Invalid input')
+        print(chalk.red('Invalid input'))
