@@ -1,4 +1,5 @@
 from peewee import *
+from yachalk import chalk
 import datetime
 
 # SETUP
@@ -50,12 +51,13 @@ def print_main_menu():
     print('Welcome to Notes')
     print('1. View notes')
     print('2. View labels')
+    print('\'q\' or \'quit\' to exit')
 
 
 def print_notes_menu():
     print('1. View note details')
-    print('2. Create new note')
-    print('3. Delete note')
+    print('2. Delete note')
+    print('\'m\' or \'main\' to return to main menu')
 
 
 print_main_menu()
@@ -63,34 +65,45 @@ print_main_menu()
 while True:
     user_input = input('Enter choice: ')
 
+    # QUIT
     if user_input == 'q' or user_input == 'quit':
         break
 
-    # NOTES
+    # VIEW NOTES
     elif user_input == '1':
         notes = Note.select()
-        print('\nAll Notes')
+        print(chalk.cyan('\nAll Notes'))
         print('---------')
 
         for note in notes:
-            print(f'{note.id}. {note.title}')
+            print(chalk.green(f'{note.id}. {note.title}'))
 
         print()
         print_notes_menu()
 
         user_input = input('Enter choice: ')
 
+        # RETURN TO MAIN MENU
+        if user_input == 'm' or user_input == 'main':
+            print_main_menu()
+
         # VIEW NOTE DETAILS
-        if user_input == '1':
+        elif user_input == '1':
             user_input = input('Enter note id: ')
             note = Note.get_by_id(user_input)
 
-            print(f'\n{note.title}')
+            print(chalk.cyan(f'\n{note.title}'))
             print('-' * len(note.title))
-            print(note.content)
-            print(f'\nCreated: {note.date_created}\n')
+            print(chalk.green(note.content))
+            print(chalk.cyan(f'\nCreated: {note.date_created}\n'))
 
-    # LABELS
+        # DELETE NOTE
+        elif user_input == '2':
+            user_input = input('Enter note id: ')
+            Note.delete_by_id(user_input)
+            print(f'Note id {user_input} deleted.')
+
+    # VIEW LABELS
     elif user_input == '2':
         labels = Label.select()
         print('\nLabels')
